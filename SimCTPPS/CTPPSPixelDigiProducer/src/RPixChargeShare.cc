@@ -88,6 +88,7 @@ std::map<unsigned short, double, std::less<unsigned short> >  RPixChargeShare::S
 	    std::cout<<"Efficiency in detector "<<det_id_<< " and pixel no " << pixel_no << "  : " <<effic<< "  ch: "<< charge_in_pixel << "   CHtot: "<< CH << std::endl;
 
 //        QUI SI POTREBBE INTRODURRE IL CHARGE SHARING TRA I PIXELS ..................................       
+
 	  if (signalCoupling_[0]==0.){
 	    thePixelChargeMap[pixel_no] += charge_in_pixel;
 	  } else {
@@ -105,32 +106,27 @@ std::map<unsigned short, double, std::less<unsigned short> >  RPixChargeShare::S
             if(pixel_col==0 || pixel_col==155) pixel_width_y = 0.15; //
 	    double pixel_center_x = pixel_lower_x + (pixel_width_x)/2.;
 	    double pixel_center_y = pixel_lower_y + (pixel_width_y)/2.;
-// xbin and ybin are pixel coordinates as in the test beam, from where the Maps come from.
+// xbin and ybin are coordinates (um) ínside the pixel as in the test beam, swapped wrt plane coordinates.
 	    int xbin=int(round((((*i).Y()-pixel_center_y)+pixel_width_y/2)*1.e3/5));
             int ybin=int(round((((*i).X()-pixel_center_x)+pixel_width_x/2)*1.e3/5));
 	    if(pixel_width_x<0.11&&pixel_width_y<0.151) {  // pixel 100x150 um^2
              psize = 0; 				    
-	     if(xbin>29||ybin>19) continue; // no charge map at dead width
+	     if(xbin>29||ybin>19) continue; 
 	    }
 	    if(pixel_width_x>0.11&&pixel_width_y<0.151) {  // pixel 200x150 um^2
              psize = 2;
-             if(xbin>29||ybin>39) continue; // no charge map at dead width
+             if(xbin>29||ybin>39) continue;
             } 
 	    if(pixel_width_x<0.11&&pixel_width_y>0.151) {  // pixel 100x300 um^2
              psize = 1; 
-             if(xbin>59||ybin>19) continue; // no charge map at dead width
+             if(xbin>59||ybin>19) continue;
             }
 	    if(pixel_width_x>0.11&&pixel_width_y>0.151) { // pixel 200x300 um^2
              psize = 3;
-             if(xbin>59||ybin>39) continue; // no charge map at dead width
+             if(xbin>59||ybin>39) continue;
             }
 	    double hit2neighbour[8];
             double collect_prob = chargeMap2E[psize][xbin][ybin];
-//	    double collect_prob = hChargeMap->GetBinContent(hChargeMap->FindBin(((*i).Y()-pixel_center_y)*1.e3,((*i).X()-pixel_center_x)*1.e3));
-//            if(abs(((*i).Y()-pixel_center_y)*1.e3)>75||abs(((*i).X()-pixel_center_x)*1.e3)>50) continue;
-//            std::cout << collect_prob << " " << chargeMap2E[psize][int(((((*i).Y()-pixel_center_y)*1.e3)+75)/5+1)-1][int((((*i).X()-pixel_center_x)*1.e3+50)/5+1)-1] << "  x = " << ((*i).X()-pixel_center_x)*1.e3 << "  y = " << ((*i).Y()-pixel_center_y)*1.e3 << "  pixel_no = " << pixel_no << "  pixel size = " << psize <<  " " << pixel_upper_x-pixel_lower_x << " " << pixel_upper_y-pixel_lower_y  << " pixelRow = " << pixel_row << " pixelCol = " << pixel_col << std::endl;
-
-//            std::cout << collect_prob << " " << chargeMap2E[psize][xbin][ybin] << "  x = " << ((*i).X()-pixel_center_x)*1.e3 << "  y = " << ((*i).Y()-pixel_center_y)*1.e3 << "  pixel_no = " << pixel_no << "  pixel size = " << psize <<  " " << pixel_upper_x-pixel_lower_x << " " << pixel_upper_y-pixel_lower_y  << " pixelRow = " << pixel_row << " pixelCol = " << pixel_col << std::endl;
 	    thePixelChargeMap[pixel_no] += charge_in_pixel*collect_prob;
 	    unsigned short neighbour_no[8];
 	    unsigned short m=0;
