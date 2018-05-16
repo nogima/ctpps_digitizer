@@ -51,7 +51,7 @@ void CTPPSPixelDigiProducer::fillDescriptions(edm::ConfigurationDescriptions & d
 
 // RPDigiProducer
   desc.add<std::vector<std::string>>("ROUList",{"CTPPSPixelHits"});
-  desc.add<int>("RPixVerbosity",0.135);
+  desc.add<int>("RPixVerbosity",0);
   desc.add<bool>("CTPPSPixelDigiSimHitRelationsPersistence",false); // save links betweend digi, clusters and OSCAR/Geant4 hits
 
 // RPDetDigitizer
@@ -70,7 +70,7 @@ void CTPPSPixelDigiProducer::fillDescriptions(edm::ConfigurationDescriptions & d
   desc.add<std::string>("ChargeMapFile2E_2X","SimCTPPS/CTPPSPixelDigiProducer/data/PixelChargeMap_2X.txt");
   desc.add<std::string>("ChargeMapFile2E_2Y","SimCTPPS/CTPPSPixelDigiProducer/data/PixelChargeMap_2Y.txt");
   desc.add<std::string>("ChargeMapFile2E_2X2Y","SimCTPPS/CTPPSPixelDigiProducer/data/PixelChargeMap_2X2Y.txt");
-  desc.add<double>("RPixCoupling",0.135); // fraction of the remaining charge going to the closer neighbour pixel. Value = 0.135, Value = 0.0 bypass the charge map and the charge sharing approach
+  desc.add<double>("RPixCoupling",0.250); // fraction of the remaining charge going to the closer neighbour pixel. Value = 0.135, Value = 0.0 bypass the charge map and the charge sharing approach
 
 // RPixDummyROCSimulator
   desc.add<double>("RPixDummyROCThreshold",1900.0);
