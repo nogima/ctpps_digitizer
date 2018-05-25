@@ -36,7 +36,7 @@ RPixChargeShare::RPixChargeShare(const edm::ParameterSet &params, uint32_t det_i
      }
      fChargeMap.close();
    }
-   else std::cout << "Unable to open charge Map file"; 
+   else throw cms::Exception("RPixChargeShare") << "Charge map file not found"; 
   }
 }
 
@@ -106,7 +106,7 @@ std::map<unsigned short, double, std::less<unsigned short> >  RPixChargeShare::S
             if(pixel_col==0 || pixel_col==pxlColSize-1) pixel_width_y = 0.15; //
 	    double pixel_center_x = pixel_lower_x + (pixel_width_x)/2.;
 	    double pixel_center_y = pixel_lower_y + (pixel_width_y)/2.;
-// xbin and ybin are coordinates (um) ínside the pixel as in the test beam, swapped wrt plane coordinates.
+// xbin and ybin are coordinates (um) ínside the pixel as in the test beam, swapped wrt plane coodinates.
 	    int xbin=int(round((((*i).Y()-pixel_center_y)+pixel_width_y/2)*1.e3/5));
             int ybin=int(round((((*i).X()-pixel_center_x)+pixel_width_x/2)*1.e3/5));
 	    if(pixel_width_x<0.11&&pixel_width_y<0.151) {  // pixel 100x150 um^2

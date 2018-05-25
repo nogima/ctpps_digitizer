@@ -49,19 +49,14 @@ void RPixDummyROCSimulator::ConvertChargeToHits(const std::map<unsigned short, d
           int adc = 0;
 	  uint32_t col = pixel_no / 160;
 	  uint32_t row = pixel_no % 160;
-//          int plane = int((det_id_>>16) & 0X7);
-
-// Prevent the access to inexistent pixels in plane 1 (2x2)
-//        if (plane==1&&col>103) {
-//          std::cout << "***** col: " << col << std::endl;
-//          continue;
-//         }
 
           const CTPPSPixelGainCalibration& DetCalibs = pcalibrations->getGainCalibration(det_id_);
-//	  std::cout << "NCols: "  << DetCalibs.getNCols() << std::endl;
           if (col > DetCalibs.getNCols()) throw cms::Exception("CorruptedData")
 	   << "[RPixDummyROCSimulator::ConvertChargeToHits] Pixel out of range: col " << col << " row " << row;;
+
+          // Avoid exception due to col > 103 in case of 2x2 plane. To be removed
           if (col >= DetCalibs.getNCols()) continue;
+
           if (doSingleCalibration_){
            adc = int(round(i->second / electron_per_adc_));
           } else {
